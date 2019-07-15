@@ -6,6 +6,7 @@ gem  'codebreaker', github: 'alexyndr/codebreaker'
 
 gem  'rake', '~> 10.0'
 gem  'rspec', '~> 3.7'
+gem  'rack'
 gem  'fasterer'
 gem  'pry'
 gem  'rubocop'
