@@ -1,0 +1,32 @@
+%body
+  %section#introduction
+    .container
+      .row.fill-viewport.align-items-center.justify-content-center
+        .col-12.col-md-6
+          .row
+            .col-md-auto
+              %h1.text-white.title Codebreaker 2019
+          %p.lead.text-white-70 Top of Players:
+          %hr.mb-4/
+          .table-responsive-md.scores
+            %table.table.table-striped.table.table-sm
+              %thead
+                %tr
+                  %th{:scope => "col"} #
+                  %th{:scope => "col"} Name
+                  %th{:scope => "col"} Level
+                  %th{:scope => "col"} Attempts Left
+                  %th{:scope => "col"} Hints Left
+                  %th{:scope => "col"} Date
+              %tbody
+                - @game_data.each do |item|
+                  %tr
+                    %th{:scope => "row"} #{@game_data.find_index(item) + 1}
+                    %td= item[:name]
+                    %td= item[:diff]
+                    %td #{item[:atmp_left]}/#{item[:atempts]}
+                    %td #{item[:hint_left]}/#{item[:hint]}
+                    %td= item[:time]
+          %hr.mb-4/
+          %a.btn.btn-primary.btn-lg{:href => "/", :role => "button"}
+            Home
