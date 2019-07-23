@@ -1,14 +1,17 @@
-source "https://rubygems.org"
+# frozen_string_literal: true
 
-git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
+source 'https://rubygems.org'
+
+git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
 gem  'codebreaker', github: 'alexyndr/codebreaker'
 
-gem  'rspec'
-gem  'rack'
 gem  'fasterer'
+gem  'html2haml'
 gem  'pry'
+gem  'rack'
+gem  'rack-test'
+gem  'rspec'
 gem  'rubocop'
 gem  'rubocop-rspec'
 gem  'simplecov'
-gem  'html2haml'

@@ -1,0 +1,59 @@
+<body>
+  <section id="introduction">
+    <div class="container">
+      <div class="row fill-viewport align-items-center justify-content-center">
+        <div class="col-12 col-md-6">
+          <div class="row">
+            <div class="col-md-auto">
+              <h1 class="text-white title inline-block">Codebreaker 2019</h1>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col button">
+              <button class="btn btn-primary" disabled="disabled" type="button">
+                Level:
+                <span class="badge badge-light">
+                  <%= #{@game.stat[:diff]} %>
+                </span>
+              </button>
+              <button class="btn btn-primary" disabled="disabled" type="button">
+                Attempts Left:
+                <span class="badge badge-light">
+                  <%= #{@game.atempts}/#{@game.stat[:atempts]} %>
+                </span>
+              </button>
+              <button class="btn btn-primary" disabled="disabled" type="button">
+                Hints Left:
+                <span class="badge badge-light">
+                  <%= #{@game.hints}/#{@game.stat[:hint]} %>
+                </span>
+              </button>
+            </div>
+          </div>
+          <hr class="mb-4"/>
+          <div class="row">
+            <div class="text-center">
+              <div class="text-center">
+                <h3 class="text-white">
+                  Oops, <%= #{@game.user} %>! You lose the game!
+                </h3>
+                <h4 class="text-white">
+                  The code was
+                  <strong><%= #{@game.secrete_code.join('')} %></strong>
+                </h4>
+              </div>
+              <img alt="You lose the game!" class="img-fluid" src="/assets/images/lost.gif"/>
+            </div>
+          </div>
+          <hr class="mb-4"/>
+          <a class="btn btn-primary btn-lg" href="/clear_session" role="button">
+            Play again!
+          </a>
+          <a class="btn btn-success btn-lg float-right" href="/statistics" role="button">
+            Statistics
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>

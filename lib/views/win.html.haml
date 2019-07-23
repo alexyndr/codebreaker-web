@@ -26,9 +26,9 @@
               .text-center
                 %h3.text-white
                   Congratulations, #{@game.user}! You won the game!
-              %img.img-fluid{:alt => "You won the game!", :src => "/images/won.gif"}/
+              %img.img-fluid{:alt => "You won the game!", :src => "/assets/images/won.gif"}/
           %hr.mb-4/
-          %a.btn.btn-primary.btn-lg{:href => "/", :role => "button"}
+          %a.btn.btn-primary.btn-lg{:href => "/clear_session", :role => "button"}
             Play again!
           %a.btn.btn-success.btn-lg.float-right{:href => "/statistics", :role => "button"}
             Statistics

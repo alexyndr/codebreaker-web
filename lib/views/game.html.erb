@@ -1,0 +1,102 @@
+<body>
+  <section id="introduction">
+    <div class="container">
+      <div class="row fill-viewport align-items-center justify-content-center">
+        <div class="col-12 col-md-6">
+          <div class="row">
+            <div class="col-md-auto">
+              <h1 class="text-white title">Codebreaker 2019</h1>
+            </div>
+          </div>
+          <p class="lead text-white-70">
+            Hello, <%= #{@game.user} %>!
+            Try to guess 4-digit number, that consists of numbers in a range from 1 to 6.
+          </p>
+          <hr class="mb-4"/>
+          <div class="row">
+            <div class="col button">
+              <button class="btn btn-primary" disabled="disabled" type="button">
+                Level:
+                <span class="badge badge-light">
+                  <%= #{@game.stat[:diff]} %>
+                </span>
+              </button>
+            </div>
+            <div class="col text-center button">
+              <button class="btn btn-primary" disabled="disabled" type="button">
+                Attempts:
+                <span class="badge badge-light"><%= #{@game.atempts}</span> %>
+              </button>
+            </div>
+            <div class="col button">
+              <button class="btn btn-primary float-right" disabled="disabled" type="button">
+                Hints:
+                <span class="badge badge-light"><%= #{@game.hints}</span> %>
+              </button>
+            </div>
+          </div>
+          <hr class="mb-4"/>
+          <form action="/submit_answer" method="post">
+            <div class="form-group">
+              <input autocomplete="off" class="form-control guess_input" name="number" pattern="^[1-6]{4 %>$" placeholder="XXXX">/</input>
+            </div>
+            <div class="form-group guess_markers_list">
+              <p class="lead text-white-70">
+                Secret code:<%= #{@game.secrete_code.join('')} %>
+              </p>
+              <div id="guess_marker"></div>
+              <% if @result %>
+                <% if @result.empty? %>
+                  <% 4.times do %>
+                    <% @result.push('x') %>
+                  <% end %>
+                <% end %>
+                <% @result.each do |sign| %>
+                  <% if @result.length != 4 %>
+                    <% @result.push('x') %>
+                  <% end %>
+                <% end %>
+                <% @result.each do |sign| %>
+                  <% if sign == '+' %>
+                    <button class="btn btn-success marks" disabled="disabled" type="button">+</button>
+                  <% end %>
+                  <% if sign == '-' %>
+                    <button class="btn btn-primary marks" disabled="disabled" type="button">-</button>
+                  <% end %>
+                  <% if sign == 'x' %>
+                    <button class="btn btn-danger marks" disabled="disabled" type="button">x</button>
+                  <% end %>
+                <% end %>
+              <% end %>
+            </div>
+            <hr class="mb-4"/>
+            <button class="btn btn-primary btn-lg" type="submit">
+              Submit
+            </button>
+            <% if @game.hints.positive? %>
+              <a class="btn btn-warning btn-lg float-right" href="/show_hint" role="button">
+                Show hint!
+                <% if !@game.creepted_code.empty? %>
+                  <% @game.creepted_code.each do |number| %>
+                    <span class="badge badge-light">
+                      <%= number %>
+                    </span>
+                  <% end %>
+                <% end %>
+              </a>
+            <% else %>
+              <a class="btn disabled btn-warning btn-lg float-right" href="/show_hint" role="button">
+                Your hint(s):
+                <% @game.creepted_code.each do |number| %>
+                  <span class="badge badge-light">
+                    <%= number %>
+                  </span>
+                <% end %>
+              </a>
+            <% end %>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>

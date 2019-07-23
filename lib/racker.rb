@@ -1,9 +1,11 @@
 # frozen_string_literal: true
+
 require 'pry'
-require 'haml'
+require 'erb'
 require 'codebreaker'
 require 'yaml'
 
+# Best class ever made, from people by people
 class Racker
   attr_reader :request
 
@@ -16,7 +18,6 @@ class Racker
 
   def initialize(env)
     @request = Rack::Request.new(env)
-    @game = request.session[:game] ||= Codebreaker::Game.new
   end
 
   def response
@@ -29,36 +30,47 @@ class Racker
     when '/statistics' then statistics
     when '/rule' then Rack::Response.new(render('rule.html'))
     when '/win' then win_player
+    when '/clear_session' then clear
     when '/lose' then Rack::Response.new(render('lose.html'))
     else Rack::Response.new(render('not_found.html'), 404)
     end
   end
 
   def menu
-    request.session.clear
-    render_page('menu.html')
+    return render_page('menu.html') unless curent_session?
+
+    redirect_to('/game')
   end
-  
+
   def statistics
     load_stat
     render_page('statistics.html')
   end
 
+  def clear
+    request.session.clear
+    redirect_to('/')
+  end
+
   def registr_user
-      request.session[:game].user = request.params['player_name']
-      request.session[:game].choose_difficulty(request.params['level'])
-      redirect_to('/game')
+    @game = request.session[:game] ||= Codebreaker::Game.new
+    request.session[:game].user = request.params['player_name']
+    request.session[:name] = request.params['player_name']
+    request.session[:game].choose_difficulty(request.params['level'])
+    redirect_to('/game')
   end
 
   def show_game
+    return redirect_to('/') unless curent_session?
+
     @result = request.session[:result]
     render_page('game.html')
   end
 
   def submit_answer
-      request.session[:numbers] = request.params['number']
-      request.session[:result] = @game.compare_code(request.params['number']).split('')
-      win_or_lose
+    request.session[:numbers] = request.params['number']
+    request.session[:result] = @game.compare_code(request.params['number']).split('')
+    win_or_lose
   end
 
   def win_or_lose
@@ -72,11 +84,13 @@ class Racker
   end
 
   def show_hint
-      @game.creepted_code.push(@game.hint)
-      redirect_to('/game')
+    @game.creepted_code.push(@game.hint)
+    redirect_to('/game')
   end
 
   def win_player
+    return redirect_to('/') unless curent_session? && request.session[:result]
+
     add_stat
     save(@game.stat)
     render_page('win.html')
@@ -90,11 +104,15 @@ class Racker
   end
 
   def render(template)
-    path = File.expand_path("../views/#{template}.haml", __FILE__)
-    layout_path = File.expand_path('views/layout.html.haml', __dir__)
-    Haml::Engine.new(File.read(layout_path)).render(binding) do
-      Haml::Engine.new(File.read(path)).render(binding)
+    path = File.expand_path("../views/#{template}.erb", __FILE__)
+    layout_path = File.expand_path('views/layout.html.erb', __dir__)
+    ERB.new(File.read(layout_path)).result(binding) do
+      ERB.new(File.read(path)).result(binding)
     end
+
+    # Haml::Engine.new(File.read(layout_path)).render(binding) do
+    #   Haml::Engine.new(File.read(path)).render(binding)
+    # end
   end
 
   def render_page(page)
