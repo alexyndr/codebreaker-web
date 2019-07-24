@@ -54,7 +54,6 @@ class Racker
   end
 
   def registr_user
-    
     request.session[:game].user = request.params['player_name']
     request.session[:name] = request.params['player_name']
     request.session[:game].choose_difficulty(request.params['level'])
@@ -70,7 +69,7 @@ class Racker
 
   def submit_answer
     unless request.params['number'].empty?
-      request.session[:numbers] = request.params['number'] 
+      request.session[:numbers] = request.params['number']
       request.session[:result] = @game.compare_code(request.params['number']).split('')
     end
     win_or_lose
