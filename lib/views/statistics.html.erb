@@ -25,15 +25,15 @@
               <tbody>
                 <% @game_data.each do |item| %>
                   <tr>
-                    <th scope="row">#{@game_data.find_index(item) + 1}</th>
+                    <th scope="row"><%= @game_data.find_index(item) + 1 %></th>
                     <td>
                       <%= item[:name] %>
                     </td>
                     <td>
                       <%= item[:diff] %>
                     </td>
-                    <td>#{item[:atmp_left]}/#{item[:atempts]}</td>
-                    <td>#{item[:hint_left]}/#{item[:hint]}</td>
+                    <td><%= item[:atmp_left] %>/<%= item[:atempts] %></td>
+                    <td><%= item[:hint_left] %>/<%= item[:hint] %></td>
                     <td>
                       <%= item[:time] %>
                     </td>

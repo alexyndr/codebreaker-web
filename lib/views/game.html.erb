@@ -9,7 +9,7 @@
             </div>
           </div>
           <p class="lead text-white-70">
-            Hello, <%= #{@game.user} %>!
+            Hello, <%= @game.user %>!
             Try to guess 4-digit number, that consists of numbers in a range from 1 to 6.
           </p>
           <hr class="mb-4"/>
@@ -18,31 +18,31 @@
               <button class="btn btn-primary" disabled="disabled" type="button">
                 Level:
                 <span class="badge badge-light">
-                  <%= #{@game.stat[:diff]} %>
+                  <%= @game.stat[:diff] %>
                 </span>
               </button>
             </div>
             <div class="col text-center button">
               <button class="btn btn-primary" disabled="disabled" type="button">
                 Attempts:
-                <span class="badge badge-light"><%= #{@game.atempts}</span> %>
+                <span class="badge badge-light"><%= @game.atempts %></span>
               </button>
             </div>
             <div class="col button">
               <button class="btn btn-primary float-right" disabled="disabled" type="button">
                 Hints:
-                <span class="badge badge-light"><%= #{@game.hints}</span> %>
+                <span class="badge badge-light"><%= @game.hints %></span>
               </button>
             </div>
           </div>
           <hr class="mb-4"/>
           <form action="/submit_answer" method="post">
             <div class="form-group">
-              <input autocomplete="off" class="form-control guess_input" name="number" pattern="^[1-6]{4 %>$" placeholder="XXXX">/</input>
+              <input autocomplete="off" class="form-control guess_input" name="number" pattern="^[1-6]{4}$" placeholder="XXXX" />
             </div>
             <div class="form-group guess_markers_list">
               <p class="lead text-white-70">
-                Secret code:<%= #{@game.secrete_code.join('')} %>
+                Secret code: <%= @game.secrete_code.join('') %>
               </p>
               <div id="guess_marker"></div>
               <% if @result %>

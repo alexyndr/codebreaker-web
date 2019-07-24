@@ -18,6 +18,7 @@ class Racker
 
   def initialize(env)
     @request = Rack::Request.new(env)
+    @game = request.session[:game] ||= Codebreaker::Game.new
   end
 
   def response
@@ -53,7 +54,7 @@ class Racker
   end
 
   def registr_user
-    @game = request.session[:game] ||= Codebreaker::Game.new
+    
     request.session[:game].user = request.params['player_name']
     request.session[:name] = request.params['player_name']
     request.session[:game].choose_difficulty(request.params['level'])
@@ -68,8 +69,10 @@ class Racker
   end
 
   def submit_answer
-    request.session[:numbers] = request.params['number']
-    request.session[:result] = @game.compare_code(request.params['number']).split('')
+    unless request.params['number'].empty?
+      request.session[:numbers] = request.params['number'] 
+      request.session[:result] = @game.compare_code(request.params['number']).split('')
+    end
     win_or_lose
   end
 
@@ -105,14 +108,15 @@ class Racker
 
   def render(template)
     path = File.expand_path("../views/#{template}.erb", __FILE__)
-    layout_path = File.expand_path('views/layout.html.erb', __dir__)
-    ERB.new(File.read(layout_path)).result(binding) do
+
+    render_layout do
       ERB.new(File.read(path)).result(binding)
     end
+  end
 
-    # Haml::Engine.new(File.read(layout_path)).render(binding) do
-    #   Haml::Engine.new(File.read(path)).render(binding)
-    # end
+  def render_layout
+    layout = File.expand_path('views/layout.html.erb', __dir__)
+    ERB.new(File.read(layout)).result(binding)
   end
 
   def render_page(page)

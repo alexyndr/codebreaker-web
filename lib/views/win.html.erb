@@ -13,19 +13,19 @@
               <button class="btn btn-primary" disabled="disabled" type="button">
                 Level:
                 <span class="badge badge-light">
-                  <%= #{@game.stat[:diff]} %>
+                  <%= @game.stat[:diff] %>
                 </span>
               </button>
               <button class="btn btn-primary" disabled="disabled" type="button">
                 Attempts Left:
                 <span class="badge badge-light">
-                  <%= #{@game.atempts}/#{@game.stat[:atempts]} %>
+                  <%= @game.atempts %> / <%= @game.stat[:atempts] %>
                 </span>
               </button>
               <button class="btn btn-primary" disabled="disabled" type="button">
                 Hints Left:
                 <span class="badge badge-light">
-                  <%= #{@game.hints}/#{@game.stat[:hint]} %>
+                  <%= @game.hints %> / <%= @game.stat[:hint] %>
                 </span>
               </button>
             </div>
@@ -35,7 +35,7 @@
             <div class="text-center">
               <div class="text-center">
                 <h3 class="text-white">
-                  Congratulations, <%= #{@game.user} %>! You won the game!
+                  Congratulations, <%= @game.user %>! You won the game!
                 </h3>
               </div>
               <img alt="You won the game!" class="img-fluid" src="/assets/images/won.gif"/>
